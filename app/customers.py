@@ -4,8 +4,6 @@ import datetime
 from app.functions_to_interact_with_config import (
     get_file_config, get_file_dict
 )
-from app.shops import shops
-from app.fuel import fuel_price
 
 
 class Customer:
