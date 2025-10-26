@@ -83,7 +83,7 @@ class Customer:
         for shop, value in dict_with_spent_money.items():
             if shop == store_we_go_to:
                 for product, cost in value.items():
-                    if cost.is_integer():
+                    if isinstance(cost, int):
                         cost_str = str(int(cost))
                     else:
                         cost_str = f"{cost:.1f}"
