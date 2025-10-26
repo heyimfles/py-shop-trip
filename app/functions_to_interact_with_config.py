@@ -3,8 +3,8 @@ import os
 
 
 def get_file_config(config_we_need: str) -> dict:
-    if os.path.exists("config.json"):
-        with open("config.json") as json_data_file:
+    if os.path.exists("app/config.json"):
+        with open("app/config.json") as json_data_file:
             all_config = json.load(json_data_file)
 
             config = {
