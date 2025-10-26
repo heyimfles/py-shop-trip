@@ -1,5 +1,5 @@
 import math
-from datetime import datetime
+import datetime
 
 from app.functions_to_interact_with_config import (
     get_file_config, get_file_dict
@@ -20,7 +20,11 @@ class Customer:
             dx = shop.location[0] - self.location[0]
             dy = shop.location[1] - self.location[1]
             distance = math.hypot(dx, dy)
-            trip_fuel_cost = fuel_price["FUEL_PRICE"] * (self.car["fuel_consumption"] * (distance / 100))
+            trip_fuel_cost = (
+                fuel_price["FUEL_PRICE"]
+                * (self.car["fuel_consumption"]
+                    * (distance / 100))
+            )
             dict_with_fuel_prices[shop.name] = trip_fuel_cost
 
         return dict_with_fuel_prices
@@ -52,7 +56,10 @@ class Customer:
         return result_dict
 
     @staticmethod
-    def calc_sum_price_with_fuel(dict_with_product_prices: dict, dict_with_fuel_prices: dict) -> dict:
+    def calc_sum_price_with_fuel(
+            dict_with_product_prices: dict,
+            dict_with_fuel_prices: dict
+    ) -> dict:
         result_dict = {}
         for shop, value in dict_with_product_prices.items():
             sum_price = 0
@@ -67,12 +74,19 @@ class Customer:
         min_key = min(dict_sum_with_fuel, key=dict_sum_with_fuel.get)
         return {min_key: dict_sum_with_fuel[min_key]}
 
-    def receipt(self, dict_with_spent_money: dict, store_we_go_to: str) -> None:
-        now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    def receipt(self,
+                dict_with_spent_money: dict,
+                store_we_go_to: str
+                ) -> None:
+        now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"Date: {now}")
         print(f"Thanks, {self.name}, for your purchase!")
         print("You have bought:")
-        sum_price = self.calc_sum_price_products_only(dict_with_spent_money)[store_we_go_to]
+        sum_price = (
+            self.calc_sum_price_products_only
+            (dict_with_spent_money)
+            [store_we_go_to]
+        )
         print(f"Total cost is {sum_price} dollars")
         print("See you again!")
 
@@ -83,13 +97,3 @@ customers = {}
 
 for name, info in customers_dict.items():
     customers[name] = Customer(info)
-
-if __name__ == "__main__":
-    fuel = customers["Bob"].calculate_trip_fuel(shops, fuel_price)
-    print(fuel)
-    prices = customers["Bob"].calculate_trip_products(shops)
-    print(prices)
-    print(customers["Bob"].calc_sum_price_products_only(prices))
-    prices_with_fuel = customers["Bob"].calc_sum_price_with_fuel(prices, fuel)
-    print(prices_with_fuel)
-    print(customers["Bob"].calc_cheapest(prices_with_fuel))
