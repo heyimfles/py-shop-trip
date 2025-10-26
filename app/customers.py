@@ -74,12 +74,23 @@ class Customer:
 
     def receipt(self,
                 dict_with_spent_money: dict,
-                store_we_go_to: str
+                store_we_go_to: str,
                 ) -> None:
         now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"Date: {now}")
         print(f"Thanks, {self.name}, for your purchase!")
         print("You have bought:")
+        for shop, value in dict_with_spent_money.items():
+            if shop == store_we_go_to:
+                for product, cost in value.items():
+                    if cost.is_integer():
+                        cost_str = str(int(cost))
+                    else:
+                        cost_str = f"{cost:.1f}"
+                    print(
+                        f"{self.product_cart[product]} "
+                        f"{product}s for {cost_str} dollars"
+                    )
         sum_price = (
             self.calc_sum_price_products_only
             (dict_with_spent_money)

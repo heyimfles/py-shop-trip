@@ -17,20 +17,23 @@ def shop_trip() -> None:
             (sum_of_shopping_with_fuel)
         )
 
-        for shop, cost in sum_of_shopping_with_fuel.items():
-            print(f"{customer.name}'s trip to the {shop} costs {cost: .2f}")
+        cheapest_shop_name = next(iter(store_we_go_to.values()))
+        cheapest_cost = next(iter(store_we_go_to))
 
-        if customer.money > next(iter(store_we_go_to.values())):
+        for shop, cost in sum_of_shopping_with_fuel.items():
+            print(f"{customer.name}'s trip to the {shop} costs {cost:.2f}")
+
+        if customer.money > cheapest_shop_name:
             print(
                 f"{customer.name} rides to "
-                f"{next(iter(store_we_go_to))}"
+                f"{cheapest_cost}"
             )
             location_home = customer.location
-            customer.location = shops[next(iter(store_we_go_to))].location
+            customer.location = shops[cheapest_cost].location
 
             print()
 
-            customer.receipt(prices, next(iter(store_we_go_to)))
+            customer.receipt(prices, cheapest_cost)
 
             print()
 
@@ -39,9 +42,9 @@ def shop_trip() -> None:
 
             remaining_money = (
                 customer.money
-                - next(iter(store_we_go_to.values()))
+                - cheapest_shop_name
             )
-            print(f"{customer.name} now has {remaining_money: .2f} dollars")
+            print(f"{customer.name} now has {remaining_money:.2f} dollars")
 
             print()
         else:
