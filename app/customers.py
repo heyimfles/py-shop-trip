@@ -83,14 +83,18 @@ class Customer:
         for shop, value in dict_with_spent_money.items():
             if shop == store_we_go_to:
                 for product, cost in value.items():
-                    if isinstance(cost, int):
-                        cost_str = str(int(cost))
+                    rounded_cost = round(cost, 2)
+
+                    if rounded_cost == int(rounded_cost):
+                        cost_str = str(int(rounded_cost))
                     else:
-                        cost_str = f"{cost:.1f}"
+                        cost_str = f"{rounded_cost:.1f}"
+
                     print(
                         f"{self.product_cart[product]} "
                         f"{product}s for {cost_str} dollars"
                     )
+
         sum_price = (
             self.calc_sum_price_products_only
             (dict_with_spent_money)
